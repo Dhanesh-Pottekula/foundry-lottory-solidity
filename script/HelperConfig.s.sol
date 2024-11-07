@@ -8,7 +8,7 @@ import {VRFCoordinatorV2_5Mock} from "@chainlink/contracts/src/v0.8/vrf/mocks/VR
 
 abstract contract CodeConstants{
     uint256 public constant ETH_SEPOLIA_CHAIN_ID=11155111;
-    uint256 public constant ETH_LOCAL_CHAIN_ID=11155111;
+    uint256 public constant ETH_LOCAL_CHAIN_ID=31337;
 
     /**VRF mock vlaues */
     uint96 public MOCK_BASE_FEE=0.25 ether;

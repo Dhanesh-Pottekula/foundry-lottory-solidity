@@ -2,6 +2,8 @@
 pragma solidity 0.8.19;
 import {VRFConsumerBaseV2Plus} from "@chainlink/contracts/src/v0.8/vrf/dev/VRFConsumerBaseV2Plus.sol";
 import {VRFV2PlusClient} from "@chainlink/contracts/src/v0.8/vrf/dev/libraries/VRFV2PlusClient.sol";
+import "forge-std/console.sol";
+
 /**
  * @title Raffel
  * @author dhanesh
@@ -128,4 +130,12 @@ contract Raffle is VRFConsumerBaseV2Plus {
         s_raffleState=RaffleState.OPEN;
         emit Winner(s_recentWInner);
     } 
+
+    function getRaffleState () external view returns (RaffleState){
+        return s_raffleState;
+    }
+
+    function getPlayer(uint256 indexOfPlayer) external view returns (address){
+        return s_players[indexOfPlayer];
+    }
 }
