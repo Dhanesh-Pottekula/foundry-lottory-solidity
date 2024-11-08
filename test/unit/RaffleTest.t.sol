@@ -8,6 +8,9 @@ import {Raffle} from "src/Raffel.sol";
 import {HelperConfig} from "script/HelperConfig.s.sol";
 import "forge-std/console.sol";
 contract RaffleTest is Test {
+        /**Events */
+    event RaffelEntered(address indexed player);
+    event Winner(address indexed winner);
  Raffle public raffle;
  HelperConfig public helperConfig;
     uint256 entranceFee;
@@ -56,5 +59,29 @@ contract RaffleTest is Test {
         //asset
         address playerRecorded =raffle.getPlayer(0);
         assert (playerRecorded==PLAYER);
+    }
+
+    function testEnteringRaffleEmitsEvent() public{
+        vm.prank(PLAYER);
+        //act 
+        vm.expectEmit(true,false,false,false,address(raffle));// expects an event to be emitted
+        emit RaffelEntered(PLAYER);// this is the exact event that should be emitted 
+
+        //assert 
+        raffle.enterRaffle{value:entranceFee}();
+    }
+    function testDontAllowPlayersToEnterWhileCalculating() public{
+        //arrange
+        vm.prank(PLAYER);
+        raffle.enterRaffle{value:entranceFee}();
+        vm.warp(block.timestamp +interval+1);
+        vm.roll(block.number +1);
+        raffle.performUpkeep('');
+
+        //act
+        vm.expectRevert(Raffle.Raffle__RaffleCalculating.selector);
+        vm.prank(PLAYER);
+        raffle.enterRaffle{value:entranceFee}();
+        //assert
     }
 }

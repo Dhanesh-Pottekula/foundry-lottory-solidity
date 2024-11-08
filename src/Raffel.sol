@@ -15,7 +15,7 @@ contract Raffle is VRFConsumerBaseV2Plus {
     error Raffel__sendMoreToEnterRaffle();
     error Raffel__transeferFailed();
     error Raffel__upKeepNotNedded(uint256 balance, uint256 players, RaffleState state);
-
+    error Raffle__RaffleCalculating();
     /**Events */
     event RaffelEntered(address indexed player);
     event Winner(address indexed winner);
@@ -62,7 +62,7 @@ contract Raffle is VRFConsumerBaseV2Plus {
             revert Raffel__sendMoreToEnterRaffle();
         }
         if(s_raffleState==RaffleState.CALCULATING){
-            revert();
+            revert Raffle__RaffleCalculating();
         }
         s_players.push(payable(msg.sender));
         emit RaffelEntered(msg.sender);
@@ -77,7 +77,7 @@ contract Raffle is VRFConsumerBaseV2Plus {
     */
      function checkUpkeep(bytes memory /* checkData */)public view
         returns (bool upkeepNeeded, bytes memory /* performData */){
-            bool isTimePassed=block.timestamp - s_lastTimeStamp <= i_interval;
+            bool isTimePassed=block.timestamp - s_lastTimeStamp >= i_interval;
             bool isOpen =s_raffleState==RaffleState.OPEN;
             bool hasBalance = address(this).balance > 0;
             bool hasPlayers = s_players.length > 0;
