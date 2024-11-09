@@ -18,8 +18,8 @@ contract Raffle is VRFConsumerBaseV2Plus {
     error Raffle__RaffleCalculating();
     /**Events */
     event RaffelEntered(address indexed player);
-    event Winner(address indexed winner);
-
+    event WinnerPicked(address indexed winner);
+    event RequestedRaffleWinner (uint256 indexed requestId);
     /**enums */
     enum RaffleState {OPEN, CALCULATING}
 
@@ -106,6 +106,7 @@ contract Raffle is VRFConsumerBaseV2Plus {
             });
 
         uint256 requestId = s_vrfCoordinator.requestRandomWords(request);
+        emit RequestedRaffleWinner(requestId);
         // get a random number
     }
 
@@ -128,7 +129,7 @@ contract Raffle is VRFConsumerBaseV2Plus {
             revert Raffel__transeferFailed();
         }
         s_raffleState=RaffleState.OPEN;
-        emit Winner(s_recentWInner);
+        emit WinnerPicked(s_recentWInner);
     } 
 
     function getRaffleState () external view returns (RaffleState){
