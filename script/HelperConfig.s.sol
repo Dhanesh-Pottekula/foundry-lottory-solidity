@@ -27,6 +27,7 @@ struct NetworkConfig{
         uint256 subscriptionId;
         uint32 callBackGasLimit;
         address link;
+        address account;
 }
 
 NetworkConfig public localNetworkConfig;
@@ -43,7 +44,8 @@ function getSepoliaNetworkConfig() public pure returns (NetworkConfig memory){
         gasLane:0x787d74caea10b2b357790d5b5247c2f63d1d91572a9846f780606e4d953677ae,
         callBackGasLimit:500000,
         subscriptionId:51117908821607482033651103705169171128108272745254837112690455071525845047475,
-        link:0x779877A7B0D9E8603169DdbD7836e478b4624789
+        link:0x779877A7B0D9E8603169DdbD7836e478b4624789,
+        account:0xde3D2E6e05F94D7Ab8Dc4F2E81c13159aBb269cf
     });
 }
 
@@ -78,7 +80,8 @@ localNetworkConfig =NetworkConfig({
         gasLane:0x787d74caea10b2b357790d5b5247c2f63d1d91572a9846f780606e4d953677ae,
         callBackGasLimit:500000,
         subscriptionId:0,
-        link: address(linkToken)
+        link: address(linkToken),
+        account:0x1804c8AB1F12E6bbf3894d4083f33e07309d1f38
     });
     return localNetworkConfig;
 }

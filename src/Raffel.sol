@@ -3,14 +3,13 @@ pragma solidity 0.8.19;
 import {VRFConsumerBaseV2Plus} from "@chainlink/contracts/src/v0.8/vrf/dev/VRFConsumerBaseV2Plus.sol";
 import {VRFV2PlusClient} from "@chainlink/contracts/src/v0.8/vrf/dev/libraries/VRFV2PlusClient.sol";
 import "forge-std/console.sol";
-
 /**
  * @title Raffel
  * @author dhanesh
  * @notice A raffel contract for managing raffel.
  * @dev implements chainlink VRF
  */
-contract Raffle is VRFConsumerBaseV2Plus {
+contract Raffle is VRFConsumerBaseV2Plus{
     /**Errors */
     error Raffel__sendMoreToEnterRaffle();
     error Raffel__transeferFailed();
@@ -54,6 +53,7 @@ contract Raffle is VRFConsumerBaseV2Plus {
         i_subscriptionId = _subcriptionId;
         i_callbackGasLimit = callbackGasLimit;
     }
+
 
     function enterRaffle() public payable {
         //enter into raffle
@@ -138,5 +138,11 @@ contract Raffle is VRFConsumerBaseV2Plus {
 
     function getPlayer(uint256 indexOfPlayer) external view returns (address){
         return s_players[indexOfPlayer];
+    }
+    function getLastTimeStamp () external view returns (uint256){
+        return s_lastTimeStamp;
+    }
+    function getRecentWinner()public view returns(address) {
+        return s_recentWInner;
     }
 }
